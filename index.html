@@ -7,6 +7,16 @@
   <meta name="description" content="AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server. Buy a lifetime license via Razorpay." />
   <meta property="og:title" content="LinkedIn Post Generator – AI Chrome Extension" />
   <meta property="og:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT85QW2ZZ3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MT85QW2ZZ3'); // add {debug_mode:true} while testing if desired
+  </script>
+
   <style>
     body{font:16px/1.5 system-ui,Segoe UI,Roboto,Arial;margin:0;background:#0b1220;color:#e6edf3}
     .wrap{max-width:920px;margin:0 auto;padding:40px 20px}
@@ -36,11 +46,11 @@
       <p>India: ₹599/month or ₹2999 lifetime. International: $9.99/month or $49 lifetime.</p>
       <p>
         <!-- LIVE INR link -->
-        <a class="btn" target="_blank" rel="noopener noreferrer"
+        <a class="btn" id="buy-inr" target="_blank" rel="noopener noreferrer"
            href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (INR)</a>
 
         <!-- TEMP: route USD to INR link until USD is enabled (banks auto-convert) -->
-        <a class="btn" target="_blank" rel="noopener noreferrer"
+        <a class="btn" id="buy-usd" target="_blank" rel="noopener noreferrer"
            href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (USD)</a>
 
         <a class="btn ok" target="_blank" rel="noopener noreferrer"
@@ -62,5 +72,15 @@
 
     <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
   </div>
+
+  <!-- Track button clicks -->
+  <script>
+    document.getElementById('buy-inr')?.addEventListener('click', () => {
+      gtag('event', 'buy_click', { currency: 'INR', value: 2999, location: 'landing' });
+    });
+    document.getElementById('buy-usd')?.addEventListener('click', () => {
+      gtag('event', 'buy_click', { currency: 'USD', value: 49, location: 'landing' });
+    });
+  </script>
 </body>
 </html>
