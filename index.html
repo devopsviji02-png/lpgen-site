@@ -11,13 +11,12 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-MT85QW2ZZ3', { debug_mode: true }); // turn off debug_mode later
+    gtag('config', 'G-MT85QW2ZZ3', { debug_mode: true });
   </script>
 
   <meta name="description" content="AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server. Buy a lifetime license via Razorpay." />
   <meta property="og:title" content="LinkedIn Post Generator – AI Chrome Extension" />
   <meta property="og:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
-
   <style>
     body{font:16px/1.5 system-ui,Segoe UI,Roboto,Arial;margin:0;background:#0b1220;color:#e6edf3}
     .wrap{max-width:920px;margin:0 auto;padding:40px 20px}
@@ -46,9 +45,14 @@
       <h2>Pricing</h2>
       <p>India: ₹599/month or ₹2999 lifetime. International: $9.99/month or $49 lifetime.</p>
       <p>
-        <a id="btnBuyINR"  class="btn"    target="_blank" rel="noopener noreferrer" href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (INR)</a>
-        <a id="btnBuyUSD"  class="btn"    target="_blank" rel="noopener noreferrer" href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (USD)</a>
-        <a id="btnChrome"  class="btn ok" target="_blank" rel="noopener noreferrer" href="https://chromewebstore.google.com/">Install from Chrome Web Store</a>
+        <a id="btnBuyINR" class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (INR)</a>
+
+        <a id="btnBuyUSD" class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (USD)</a>
+
+        <a id="btnInstall" class="btn ok" target="_blank" rel="noopener noreferrer"
+           href="https://chromewebstore.google.com/">Install from Chrome Web Store</a>
       </p>
       <p class="muted" style="margin-top:6px;">Note: USD button temporarily opens the INR payment page; your bank will auto-convert.</p>
     </div>
@@ -56,31 +60,34 @@
     <div class="card">
       <h2>Policies</h2>
       <p>
-        <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/document/d/e/2PACX-1vQorv7-If0am-B73TTrZ9x2RhPi4qENtso9HuhPGA81mShuB15JjwNSNlFprAFU_rJmrXaFUs2b8Ldg/pub">Privacy Policy</a>
+        <a target="_blank" rel="noopener noreferrer"
+           href="https://docs.google.com/document/d/e/2PACX-1vQorv7-If0am-B73TTrZ9x2RhPi4qENtso9HuhPGA81mShuB15JjwNSNlFprAFU_rJmrXaFUs2b8Ldg/pub">Privacy Policy</a>
         ·
-        <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/document/d/e/2PACX-1vTtQGK2YFzQzcTwX44G0leJRUbygWOkcd8d4emyt-M0dmjjuf-Nfg4WJcxVzZXOt7lYxd5V970byTCD/pub">Refund & Cancellation Policy</a>
+        <a target="_blank" rel="noopener noreferrer"
+           href="https://docs.google.com/document/d/e/2PACX-1vTtQGK2YFzQzcTwX44G0leJRUbygWOkcd8d4emyt-M0dmjjuf-Nfg4WJcxVzZXOt7lYxd5V970byTCD/pub">Refund & Cancellation Policy</a>
       </p>
     </div>
 
     <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
   </div>
 
-  <!-- GA4 CTA events -->
+  <!-- Minimal CTA tracking -->
   <script>
-    function sendCta(kind, extra){
-      if (typeof gtag === "function") {
-        gtag('event', 'cta_click', Object.assign({ cta_kind: kind }, extra || {}));
-      }
+    function trackCTA(kind, href, value, currency) {
+      const params = { cta_kind: kind, link_url: href };
+      if (value && currency) { params.value = value; params.currency = currency; }
+      if (window.gtag) gtag('event', 'cta_click', params);
     }
-    document.getElementById('btnBuyINR')?.addEventListener('click', () =>
-      sendCta('buy_lifetime_inr', { value: 2999, currency: 'INR' })
-    );
-    document.getElementById('btnBuyUSD')?.addEventListener('click', () =>
-      sendCta('buy_lifetime_usd', { value: 49, currency: 'USD' })
-    );
-    document.getElementById('btnChrome')?.addEventListener('click', () =>
-      sendCta('install_chrome_webstore')
-    );
+
+    document.getElementById('btnBuyINR')?.addEventListener('click', function(){
+      trackCTA('buy_lifetime_inr', this.href, 2999, 'INR');
+    });
+    document.getElementById('btnBuyUSD')?.addEventListener('click', function(){
+      trackCTA('buy_lifetime_usd', this.href, 49, 'USD');
+    });
+    document.getElementById('btnInstall')?.addEventListener('click', function(){
+      trackCTA('install_chrome_webstore', this.href);
+    });
   </script>
 </body>
 </html>
