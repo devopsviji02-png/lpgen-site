@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Payment Successful — LinkedIn Post Generator Pro</title>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT85QW2ZZ3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MT85QW2ZZ3', { debug_mode: true });
+  </script>
+
+  <meta name="description" content="Payment successful. Your LinkedIn Post Generator Pro lifetime license is on the way." />
+  <style>
+    :root{
+      --bg:#0b1220; --card:#0f1528; --text:#e6edf3; --muted:#93a2b7;
+      --line:#263248; --accent:#2d6cdf; --ok:#3fb950;
+    }
+    *{box-sizing:border-box}
+    body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:var(--text)}
+    .wrap{max-width:860px;margin:0 auto;padding:36px 18px}
+    h1{margin:0 0 10px;font-size:28px}
+    p.muted{color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+    .btn{display:inline-block;padding:12px 16px;border-radius:10px;text-decoration:none;color:#fff;background:var(--accent);margin-right:10px}
+    .btn.secondary{background:#384457}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#0f1a33;border:1px solid #223257;color:#b5c2d6;padding:8px 12px;border-radius:12px;font-size:14px}
+    .codebox{background:#11182c;border:1px solid #24314b;color:#dfe7f5;border-radius:10px;padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace}
+    ol{padding-left:22px;margin:10px 0}
+    small, a{color:var(--muted)}
+    a:hover{color:#fff}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="badge">✅ Payment Successful</span>
+    <h1>Lifetime Access Secured</h1>
+    <p class="muted">Thank you for your purchase. Your Pro license email is on its way.</p>
+
+    <div class="card">
+      <h2 style="margin:0 0 8px;">What happens next</h2>
+      <div class="grid">
+        <div>
+          <b>1) Check your email</b>
+          <p>We’ll send your license key and activation steps to your inbox.</p>
+        </div>
+        <div>
+          <b>2) Activate the key</b>
+          <p>Open the extension → <b>License</b> → paste the key → <b>Activate</b>.</p>
+        </div>
+        <div>
+          <b>3) You’re Pro</b>
+          <p>Unlimited generations, one-click insert, and lifetime updates.</p>
+        </div>
+      </div>
+      <div class="codebox" id="orderBox" style="margin-top:10px;">
+        <div>Amount: <b><span id="amt">₹2,999</span></b> · Reference: <span id="ref">pending</span></div>
+      </div>
+      <div style="margin-top:12px;">
+        <a class="btn" href="https://chromewebstore.google.com/" target="_blank" rel="noopener">Install / Open extension</a>
+        <a class="btn secondary" href="https://devopsviji02-png.github.io/lpgen-site/" target="_blank" rel="noopener">Setup guide</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 8px;">Need help?</h2>
+      <p class="muted">Reply to the email you received or write to <a href="mailto:linkedinpostgen@gmail.com">linkedinpostgen@gmail.com</a>.</p>
+    </div>
+
+    <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
+  </div>
+
+  <script>
+    // Read query params if Razorpay passes them; otherwise default to ₹2,999.
+    const qs = new URLSearchParams(location.search);
+    const ref = qs.get('ref') || qs.get('payment_id') || ('web-' + Date.now());
+    const amountParam = qs.get('amount'); // Razorpay may pass in paise; if so you can divide by 100.
+    const currency = (qs.get('currency') || 'INR').toUpperCase();
+    // If 'amount' looks like paise (>= 10000), normalize to rupees; else default 2999
+    let value = 2999;
+    if (amountParam && !isNaN(amountParam)) {
+      const num = Number(amountParam);
+      value = num >= 10000 ? Math.round(num/100) : Math.round(num);
+      if (value <= 0) value = 2999;
+    }
+    document.getElementById('ref').textContent = ref;
+    document.getElementById('amt').textContent = (currency === 'INR' ? '₹' : '') + value.toLocaleString() + (currency !== 'INR' ? (' ' + currency) : '');
+
+    // Fire GA4 event once per session for this reference
+    try {
+      const key = 'ty_fired_' + ref;
+      if (!sessionStorage.getItem(key)) {
+        if (window.gtag) {
+          gtag('event', 'purchase_complete', {
+            value: value,
+            currency: currency,
+            transaction_id: ref,
+            debug_mode: true
+          });
+        }
+        sessionStorage.setItem(key, '1');
+      }
+    } catch (e) {}
+  </script>
+</body>
+</html>
