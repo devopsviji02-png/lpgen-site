@@ -69,7 +69,9 @@
 
     <div class="card">
       <h2 style="margin:0 0 8px;">Need help?</h2>
-      <p class="muted">Reply to the email you received or write to <a href="mailto:linkedinpostgen@gmail.com">linkedinpostgen@gmail.com</a>.</p>
+      <p class="muted">Reply to the email you received or write to
+        <a href="mailto:devopsviji02@gmail.com">devopsviji02@gmail.com</a>.
+      </p>
     </div>
 
     <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
@@ -79,9 +81,8 @@
     // Read query params if Razorpay passes them; otherwise default to ₹2,999.
     const qs = new URLSearchParams(location.search);
     const ref = qs.get('ref') || qs.get('payment_id') || ('web-' + Date.now());
-    const amountParam = qs.get('amount'); // Razorpay may pass in paise; if so you can divide by 100.
+    const amountParam = qs.get('amount'); // May be paise; if so divide by 100.
     const currency = (qs.get('currency') || 'INR').toUpperCase();
-    // If 'amount' looks like paise (>= 10000), normalize to rupees; else default 2999
     let value = 2999;
     if (amountParam && !isNaN(amountParam)) {
       const num = Number(amountParam);
@@ -89,7 +90,8 @@
       if (value <= 0) value = 2999;
     }
     document.getElementById('ref').textContent = ref;
-    document.getElementById('amt').textContent = (currency === 'INR' ? '₹' : '') + value.toLocaleString() + (currency !== 'INR' ? (' ' + currency) : '');
+    document.getElementById('amt').textContent =
+      (currency === 'INR' ? '₹' : '') + value.toLocaleString() + (currency !== 'INR' ? (' ' + currency) : '');
 
     // Fire GA4 event once per session for this reference
     try {
