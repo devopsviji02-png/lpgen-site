@@ -16,100 +16,40 @@
 
   <meta name="description" content="AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server. Buy a lifetime license via Razorpay." />
   <meta property="og:title" content="LinkedIn Post Generator – AI Chrome Extension" />
-  <meta property="og:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Limited-time lifetime license at ₹1,499 (regular ₹2,999)." />
-
+  <meta property="og:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
   <style>
-    :root{
-      --bg:#0b1220; --card:#0f1528; --line:#263248; --txt:#e6edf3; --muted:#93a2b7;
-      --brand:#2d6cdf; --ok:#22c55e; --chip:#fde68a; --chipTxt:#7a5200;
-    }
-    *{box-sizing:border-box}
-    body{font:16px/1.55 system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:var(--txt)}
-    .wrap{max-width:960px;margin:0 auto;padding:40px 20px}
-    h1{font-size:34px;margin:0 0 8px}
-    h2{margin:0 0 10px}
-    p{margin:0 0 10px}
-    .hero{margin-bottom:14px}
-    .note{display:inline-block;background:var(--chip);color:var(--chipTxt);padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
-    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
-    .btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;color:#fff;background:var(--brand);margin-right:8px;font-weight:700}
-    .btn.secondary{background:transparent;border:1px solid var(--line);color:var(--txt)}
-    .btn.ok{background:var(--ok);color:#052e13}
-    .muted{color:var(--muted)}
-    small, a{color:var(--muted)}
+    body{font:16px/1.5 system-ui,Segoe UI,Roboto,Arial;margin:0;background:#0b1220;color:#e6edf3}
+    .wrap{max-width:920px;margin:0 auto;padding:40px 20px}
+    h1{font-size:32px;margin:0 0 10px}
+    .card{background:#0f1528;border:1px solid #263248;border-radius:14px;padding:20px;margin:16px 0}
+    .btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;color:#fff;background:#2d6cdf;margin-right:8px}
+    .muted{color:#93a2b7}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    small, a{color:#93a2b7}
     a:hover{color:#fff}
-    ul{margin:8px 0 0 18px}
-    .price{font-size:22px;font-weight:800}
-    .strike{opacity:.6;text-decoration:line-through}
-    .badge{display:inline-block;background:#1f2a44;border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:12px;margin-left:8px}
-    .cols2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start}
-    .k{font-weight:700;border:1px solid var(--line);background:#0b1220;border-radius:8px;padding:4px 8px}
+    .ok{background:#3fb950}
   </style>
 </head>
-
 <body>
   <div class="wrap">
-    <div class="hero">
-      <span class="note">Launch • First 50 customers</span>
-      <h1>LinkedIn Post Generator</h1>
-      <p class="muted">AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server.</p>
-    </div>
+    <h1>LinkedIn Post Generator</h1>
+    <p class="muted">AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server.</p>
 
     <div class="grid">
-      <div class="card"><b>Generate</b><br/>One-click drafts from your topic with multiple tones & lengths.</div>
-      <div class="card"><b>Insert</b><br/>Auto-opens the LinkedIn composer and inserts your draft.</div>
-      <div class="card"><b>Privacy-first</b><br/>Your OpenAI key stays in your browser. No account, no server.</div>
-      <div class="card"><b>Lifetime license</b><br/>Pay once. Updates included. Perfect for consistent posting.</div>
+      <div class="card"><b>Generate</b><br>One-click drafts from your topic.</div>
+      <div class="card"><b>Inject</b><br>Auto-opens LinkedIn composer and inserts text.</div>
+      <div class="card"><b>Privacy-first</b><br>No account required. Your OpenAI key stays in your browser.</div>
     </div>
 
     <div class="card">
       <h2>Pricing</h2>
-      <p class="price">₹1,499 <span class="badge">Launch 50% off</span> <span class="strike">₹2,999</span></p>
-      <p class="muted" style="margin-top:2px">One-time lifetime license. Limited to the first 50 customers.</p>
-      <p style="margin-top:12px">
-        <a id="btnBuyLaunch" class="btn" target="_blank" rel="noopener noreferrer"
-           href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (₹1,499)</a>
-
-        <a id="btnInstall" class="btn secondary" target="_blank" rel="noopener noreferrer"
+      <p><b>Lifetime license: ₹2,999</b></p>
+      <p>
+        <a id="btnBuy" class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (₹2,999)</a>
+        <a id="btnInstall" class="btn ok" target="_blank" rel="noopener noreferrer"
            href="https://chromewebstore.google.com/">Install from Chrome Web Store</a>
       </p>
-      <p class="muted" style="margin-top:8px">
-        International users can pay on the INR page—your bank will auto-convert.
-      </p>
-      <p class="muted" style="margin-top:8px">
-        After payment you’ll see setup instructions on-screen, and your license key will be emailed within 30 minutes.
-      </p>
-    </div>
-
-    <div class="cols2">
-      <div class="card">
-        <h2>How it works</h2>
-        <ol style="margin:8px 0 0 18px">
-          <li>Enter your topic and choose tone & length.</li>
-          <li>Click <b>Generate</b> → review/edit.</li>
-          <li>Click <b>Insert into LinkedIn</b> → the composer opens with your draft.</li>
-        </ol>
-      </div>
-      <div class="card">
-        <h2>Why ₹1,499 is a steal</h2>
-        <ul>
-          <li>Saves ~5 hours/week vs writing from scratch.</li>
-          <li>LinkedIn Premium costs ₹599/month—this is one-time.</li>
-          <li>One new client or interview covers the entire license.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>What you get with Pro</h2>
-      <ul>
-        <li>Unlimited generations, all presets & tones</li>
-        <li>One-click LinkedIn insertion</li>
-        <li>Self-test diagnostics in the popup</li>
-        <li>Lifetime updates</li>
-        <li>Privacy-first: your API key stays local</li>
-      </ul>
     </div>
 
     <div class="card">
@@ -121,28 +61,20 @@
         <a target="_blank" rel="noopener noreferrer"
            href="https://docs.google.com/document/d/e/2PACX-1vTtQGK2YFzQzcTwX44G0leJRUbygWOkcd8d4emyt-M0dmjjuf-Nfg4WJcxVzZXOt7lYxd5V970byTCD/pub">Refund & Cancellation Policy</a>
       </p>
-      <p class="muted" style="margin-top:8px">
-        Support: <a href="mailto:linkedinpostgen@gmail.com">linkedinpostgen@gmail.com</a>
-      </p>
     </div>
 
-    <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods). Your OpenAI key is stored locally.</small>
+    <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
   </div>
 
-  <!-- Minimal CTA + view tracking -->
+  <!-- Minimal CTA tracking -->
   <script>
-    // mark landing view
-    if (window.gtag) gtag('event', 'view_content', { page_section: 'landing' });
-
     function trackCTA(kind, href, value, currency) {
       const params = { cta_kind: kind, link_url: href };
       if (value && currency) { params.value = value; params.currency = currency; }
       if (window.gtag) gtag('event', 'cta_click', params);
     }
-
-    document.getElementById('btnBuyLaunch')?.addEventListener('click', function(){
-      // value is the current launch price; adjust if you change pricing
-      trackCTA('buy_lifetime_launch_inr', this.href, 1499, 'INR');
+    document.getElementById('btnBuy')?.addEventListener('click', function(){
+      trackCTA('buy_lifetime_inr_2999', this.href, 2999, 'INR');
     });
     document.getElementById('btnInstall')?.addEventListener('click', function(){
       trackCTA('install_chrome_webstore', this.href);
