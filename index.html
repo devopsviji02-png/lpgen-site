@@ -43,10 +43,9 @@
 
     <div class="card">
       <h2>Pricing</h2>
-      <p><b>Lifetime license: ₹2,999</b></p>
+      <p id="priceLine"><b>Lifetime license</b></p>
       <p>
-        <a id="btnBuy" class="btn" target="_blank" rel="noopener noreferrer"
-           href="https://rzp.io/rzp/zC7itQNW">Buy Lifetime (₹2,999)</a>
+        <a id="btnBuy" class="btn" target="_blank" rel="noopener noreferrer">Buy Lifetime</a>
         <a id="btnInstall" class="btn ok" target="_blank" rel="noopener noreferrer"
            href="https://chromewebstore.google.com/">Install from Chrome Web Store</a>
       </p>
@@ -66,18 +65,36 @@
     <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
   </div>
 
-  <!-- Minimal CTA tracking -->
   <script>
-    function trackCTA(kind, href, value, currency) {
-      const params = { cta_kind: kind, link_url: href };
-      if (value && currency) { params.value = value; params.currency = currency; }
-      if (window.gtag) gtag('event', 'cta_click', params);
+    // Live Razorpay links
+    const INR_LINK = 'https://rzp.io/rzp/NXXuDLtj'; // ₹399
+    const USD_LINK = 'https://rzp.io/rzp/4dEiBgC';  // $4.99
+
+    function likelyIndia(){
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        const lang = (navigator.language || '').toLowerCase();
+        return tz.includes('Kolkata') || lang.endsWith('-in') || lang === 'hi' || lang === 'en-in';
+      } catch { return false; }
     }
-    document.getElementById('btnBuy')?.addEventListener('click', function(){
-      trackCTA('buy_lifetime_inr_2999', this.href, 2999, 'INR');
-    });
+
+    const buy = document.getElementById('btnBuy');
+    const priceLine = document.getElementById('priceLine');
+    const inIndia = likelyIndia();
+    if (inIndia) {
+      buy.href = INR_LINK;
+      buy.textContent = 'Buy Lifetime (₹399)';
+      priceLine.innerHTML = '<b>Lifetime license:</b> ₹399 (India)';
+      buy.addEventListener('click', () => gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399', value:399, currency:'INR'}));
+    } else {
+      buy.href = USD_LINK;
+      buy.textContent = 'Buy Lifetime ($4.99)';
+      priceLine.innerHTML = '<b>Lifetime license:</b> $4.99 (International)';
+      buy.addEventListener('click', () => gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99', value:4.99, currency:'USD'}));
+    }
+
     document.getElementById('btnInstall')?.addEventListener('click', function(){
-      trackCTA('install_chrome_webstore', this.href);
+      gtag && gtag('event','cta_click', { cta_kind:'install_chrome_webstore', link_url:this.href });
     });
   </script>
 </body>
