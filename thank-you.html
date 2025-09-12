@@ -14,20 +14,18 @@
     gtag('config', 'G-MT85QW2ZZ3', { debug_mode: true });
   </script>
 
-  <meta name="description" content="Payment successful. Your LinkedIn Post Generator Pro lifetime license is on the way." />
+  <meta name="description" content="Payment successful. Your LinkedIn Post Generator Pro lifetime license is on its way." />
   <style>
-    :root{
-      --bg:#0b1220; --card:#0f1528; --text:#e6edf3; --muted:#93a2b7;
-      --line:#263248; --accent:#2d6cdf; --ok:#3fb950;
-    }
+    :root{ --bg:#0b1220; --card:#0f1528; --text:#e6edf3; --muted:#93a2b7; --line:#263248; --accent:#2d6cdf; --ok:#3fb950; }
     *{box-sizing:border-box}
-    body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:var(--text)}
+    body{font:16px/1.6 -apple-system,system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:var(--text)}
     .wrap{max-width:860px;margin:0 auto;padding:36px 18px}
     h1{margin:0 0 10px;font-size:28px}
     p.muted{color:var(--muted)}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
-    .btn{display:inline-block;padding:12px 16px;border-radius:10px;text-decoration:none;color:#fff;background:var(--accent);margin-right:10px}
+    .btn{display:inline-block;padding:12px 16px;border-radius:10px;text-decoration:none;color:#fff;background:var(--accent);margin:10px 10px 0 0}
     .btn.secondary{background:#384457}
+    .btn.success{background:var(--ok); color:#0a0f18}
     .badge{display:inline-flex;align-items:center;gap:8px;background:#0f1a33;border:1px solid #223257;color:#b5c2d6;padding:8px 12px;border-radius:12px;font-size:14px}
     .codebox{background:#11182c;border:1px solid #24314b;color:#dfe7f5;border-radius:10px;padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace}
     ol{padding-left:22px;margin:10px 0}
@@ -45,23 +43,17 @@
     <div class="card">
       <h2 style="margin:0 0 8px;">What happens next</h2>
       <div class="grid">
-        <div>
-          <b>1) Check your email</b>
-          <p>We’ll send your license key and activation steps to your inbox.</p>
-        </div>
-        <div>
-          <b>2) Activate the key</b>
-          <p>Open the extension → <b>License</b> → paste the key → <b>Activate</b>.</p>
-        </div>
-        <div>
-          <b>3) You’re Pro</b>
-          <p>Unlimited generations, one-click insert, and lifetime updates.</p>
-        </div>
+        <div><b>1) Check your email</b><p>We’ll send your license key and activation steps to your inbox.</p></div>
+        <div><b>2) Activate the key</b><p>Open the extension → <b>License</b> → paste the key → <b>Activate</b>.</p></div>
+        <div><b>3) You’re Pro</b><p>Unlimited generations, one-click insert, and lifetime updates.</p></div>
       </div>
+
       <div class="codebox" id="orderBox" style="margin-top:10px;">
         <div>Amount: <b><span id="amt">₹399</span></b> · Reference: <span id="ref">pending</span></div>
       </div>
+
       <div style="margin-top:12px;">
+        <a id="btnClaim" class="btn success" target="_blank" rel="noopener">Claim your license</a>
         <a class="btn" href="https://chromewebstore.google.com/" target="_blank" rel="noopener">Install / Open extension</a>
         <a class="btn secondary" href="https://devopsviji02-png.github.io/lpgen-site/" target="_blank" rel="noopener">Setup guide</a>
       </div>
@@ -69,21 +61,19 @@
 
     <div class="card">
       <h2 style="margin:0 0 8px;">Need help?</h2>
-      <p class="muted">Reply to the email you received or write to
-        <a href="mailto:devopsviji02@gmail.com">devopsviji02@gmail.com</a>.
-      </p>
+      <p class="muted">Reply to the email you received or write to <a href="mailto:devopsviji02@gmail.com">devopsviji02@gmail.com</a>.</p>
     </div>
 
     <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
   </div>
 
   <script>
-    // Read query params if Razorpay passes them; otherwise default to ₹399.
+    // Parse Razorpay query params (fallback to defaults)
     const qs = new URLSearchParams(location.search);
     const ref = qs.get('ref') || qs.get('payment_id') || ('web-' + Date.now());
-    const amountParam = qs.get('amount'); // May be paise; if so divide by 100.
+    const amountParam = qs.get('amount');
     const currency = (qs.get('currency') || 'INR').toUpperCase();
-    let value = 399; // default
+    let value = 399;
     if (amountParam && !isNaN(amountParam)) {
       const num = Number(amountParam);
       value = num >= 10000 ? Math.round(num/100) : Math.round(num);
@@ -93,21 +83,23 @@
     document.getElementById('amt').textContent =
       (currency === 'INR' ? '₹' : '') + value.toLocaleString() + (currency !== 'INR' ? (' ' + currency) : '');
 
-    // Fire GA4 event once per session for this reference
+    // Claim button → Google Form (with helpful context params)
+    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScJvsOFkRNb5IvyBUE87xKO8MpvLQN4O4a_4xdoAVU3fCFp5A/viewform?usp=dialog";
+    const claim = document.getElementById('btnClaim');
+    const sep = FORM_URL.includes('?') ? '&' : '?';
+    claim.href = FORM_URL + sep + "ref=" + encodeURIComponent(ref) + "&amount=" + encodeURIComponent(value) + "&currency=" + encodeURIComponent(currency);
+    claim.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'claim_license', transaction_id:ref}));
+
+    // GA4 purchase ping once per reference
     try {
       const key = 'ty_fired_' + ref;
       if (!sessionStorage.getItem(key)) {
         if (window.gtag) {
-          gtag('event', 'purchase_complete', {
-            value: value,
-            currency: currency,
-            transaction_id: ref,
-            debug_mode: true
-          });
+          gtag('event', 'purchase_complete', { value:value, currency:currency, transaction_id:ref, debug_mode:true });
         }
         sessionStorage.setItem(key, '1');
       }
-    } catch (e) {}
+    } catch {}
   </script>
 </body>
 </html>
