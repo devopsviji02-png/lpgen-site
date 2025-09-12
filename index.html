@@ -66,9 +66,9 @@
   </div>
 
   <script>
-    // Live Razorpay links
-    const INR_LINK = 'https://rzp.io/rzp/NXXuDLtj'; // ₹399
-    const USD_LINK = 'https://rzp.io/rzp/4dEiBgC';  // $4.99
+    // Live Razorpay Payment Links
+      const INR_LINK = 'https://rzp.io/rzp/lpgen-in';
+      const USD_LINK = 'https://rzp.io/rzp/lpgen-usd';
 
     function likelyIndia(){
       try {
@@ -85,16 +85,16 @@
       buy.href = INR_LINK;
       buy.textContent = 'Buy Lifetime (₹399)';
       priceLine.innerHTML = '<b>Lifetime license:</b> ₹399 (India)';
-      buy.addEventListener('click', () => gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399', value:399, currency:'INR'}));
+      buy.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399', value:399, currency:'INR'}));
     } else {
       buy.href = USD_LINK;
       buy.textContent = 'Buy Lifetime ($4.99)';
       priceLine.innerHTML = '<b>Lifetime license:</b> $4.99 (International)';
-      buy.addEventListener('click', () => gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99', value:4.99, currency:'USD'}));
+      buy.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99', value:4.99, currency:'USD'}));
     }
 
     document.getElementById('btnInstall')?.addEventListener('click', function(){
-      gtag && gtag('event','cta_click', { cta_kind:'install_chrome_webstore', link_url:this.href });
+      window.gtag && gtag('event','cta_click', { cta_kind:'install_chrome_webstore', link_url:this.href });
     });
   </script>
 </body>
