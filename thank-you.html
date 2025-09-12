@@ -57,6 +57,7 @@
         <a class="btn" href="https://chromewebstore.google.com/" target="_blank" rel="noopener">Install / Open extension</a>
         <a class="btn secondary" href="https://devopsviji02-png.github.io/lpgen-site/" target="_blank" rel="noopener">Setup guide</a>
       </div>
+      <p id="claimNote" class="muted" style="margin-top:8px;display:none;">To claim a license, open this page from your Razorpay success redirect.</p>
     </div>
 
     <div class="card">
@@ -73,6 +74,8 @@
     const ref = qs.get('ref') || qs.get('payment_id') || ('web-' + Date.now());
     const amountParam = qs.get('amount');
     const currency = (qs.get('currency') || 'INR').toUpperCase();
+    const paymentId = (qs.get('payment_id') || '').trim(); // <-- used for gating
+
     let value = 399;
     if (amountParam && !isNaN(amountParam)) {
       const num = Number(amountParam);
@@ -83,12 +86,24 @@
     document.getElementById('amt').textContent =
       (currency === 'INR' ? '₹' : '') + value.toLocaleString() + (currency !== 'INR' ? (' ' + currency) : '');
 
-    // Claim button → Google Form (with helpful context params)
+    // Claim button → Google Form (with context params), but only if a valid payment_id is present
     const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScJvsOFkRNb5IvyBUE87xKO8MpvLQN4O4a_4xdoAVU3fCFp5A/viewform?usp=dialog";
     const claim = document.getElementById('btnClaim');
-    const sep = FORM_URL.includes('?') ? '&' : '?';
-    claim.href = FORM_URL + sep + "ref=" + encodeURIComponent(ref) + "&amount=" + encodeURIComponent(value) + "&currency=" + encodeURIComponent(currency);
-    claim.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'claim_license', transaction_id:ref}));
+    const note = document.getElementById('claimNote');
+
+    if (paymentId && /^pay_/i.test(paymentId)) {
+      const sep = FORM_URL.includes('?') ? '&' : '?';
+      claim.href = FORM_URL + sep +
+        "payment_id=" + encodeURIComponent(paymentId) +
+        "&ref=" + encodeURIComponent(ref) +
+        "&amount=" + encodeURIComponent(value) +
+        "&currency=" + encodeURIComponent(currency);
+      claim.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'claim_license', transaction_id:ref}));
+      claim.style.display = "";            // show
+    } else {
+      claim.style.display = "none";        // hide if no valid payment id
+      note.style.display = "";             // show small hint instead
+    }
 
     // GA4 purchase ping once per reference
     try {
