@@ -14,11 +14,16 @@
     gtag('config', 'G-MT85QW2ZZ3', { debug_mode: true });
   </script>
 
+  <!-- Social cards -->
   <meta name="description" content="AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server. Buy a lifetime license via Razorpay." />
   <meta property="og:title" content="LinkedIn Post Generator – AI Chrome Extension" />
   <meta property="og:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="Hero.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LinkedIn Post Generator – AI Chrome Extension" />
+  <meta name="twitter:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
+  <meta name="twitter:image" content="Hero.png" />
   <meta name="theme-color" content="#0b1220" />
 
   <style>
@@ -29,6 +34,7 @@
     *{box-sizing:border-box}
     body{font:16px/1.55 system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:var(--txt)}
     img{max-width:100%;height:auto;border-radius:12px}
+    a{color:var(--brand)}
     .wrap{max-width:1040px;margin:0 auto;padding:32px 20px}
     h1{font-size:36px;margin:0 0 10px}
     h2{font-size:24px;margin:0 0 12px}
@@ -46,9 +52,23 @@
     .strip{padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
     footer{color:var(--muted);font-size:13px;margin:36px 0}
     .center{text-align:center}
+    .trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .badge{font:600 12px/1 system-ui;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 10px}
+
+    /* Video */
+    .video-wrap{position:relative;width:100%;max-width:920px;aspect-ratio:16/9;margin:8px 0 0}
+    .video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;object-fit:cover;background:#000}
+
+    /* Sticky CTA */
+    .sticky-cta{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;
+      display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);
+      border-radius:12px;padding:10px 12px;box-shadow:0 12px 24px -12px rgba(0,0,0,.5);z-index:50}
+    .sticky-cta .label{color:var(--muted);font-size:13px}
     @media (max-width:860px){ .row{grid-template-columns:1fr} }
+    @media (max-width:520px){ .sticky-cta{right:12px;left:12px;transform:none} }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <!-- Hero -->
@@ -65,22 +85,36 @@
         <p class="muted" style="margin-top:8px">Runs locally • No server • Your OpenAI key stays in your browser</p>
       </div>
       <div>
-        <!-- Prefer image hero for speed; swap to <video> block below if you want autoplay demo -->
         <img src="Hero.png" alt="LinkedIn Post Generator — product hero" loading="eager" />
       </div>
     </section>
 
-    <!-- Optional video demo (uncomment when you add demo.mp4 to the repo)
+    <!-- Demo video -->
     <section class="panel" style="margin-bottom:16px">
-      <h2 style="margin-bottom:10px">See it in action</h2>
-      <video controls playsinline style="width:100%;border-radius:12px;outline:none">
-        <source src="demo.mp4" type="video/mp4" />
-        Your browser doesn’t support HTML5 video.
-      </video>
-    </section>
-    -->
+      <h2 style="margin-bottom:10px">See it in action (16s)</h2>
+      <div class="video-wrap">
+        <video
+          src="demo.mp4"
+          poster="Hero.png"
+          controls
+          playsinline
+          preload="metadata"
+        ></video>
+      </div>
 
-    <!-- Feature highlights (your screenshots) -->
+      <div class="trust">
+        <span class="badge">Works inside LinkedIn</span>
+        <span class="badge">No servers • Privacy-first</span>
+        <span class="badge">One-click insert</span>
+      </div>
+
+      <p class="cta" style="margin:12px 0 0">
+        <a class="btn ok" href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc" target="_blank" rel="noopener">Install from Chrome Web Store</a>
+        <a class="btn" id="btnBuy2" target="_blank" rel="noopener">Buy Lifetime</a>
+      </p>
+    </section>
+
+    <!-- Feature highlights -->
     <section class="grid" style="margin-bottom:16px">
       <div class="panel">
         <img src="Features Highlight 1.png" alt="Choose tone and adapt style" />
@@ -116,8 +150,9 @@
     <section class="panel" style="margin-bottom:16px">
       <h2>Pricing</h2>
       <p id="priceLine" class="muted"><b>Lifetime license</b></p>
+      <p class="muted" style="margin:4px 0 10px">One-time purchase • No subscriptions</p>
       <div class="cta">
-        <a id="btnBuy2" class="btn" target="_blank" rel="noopener noreferrer">Buy Lifetime</a>
+        <a id="btnBuy3" class="btn" target="_blank" rel="noopener noreferrer">Buy Lifetime</a>
         <a class="btn ok" target="_blank" rel="noopener noreferrer"
            href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc">Install from Chrome Web Store</a>
       </div>
@@ -167,6 +202,13 @@
     </footer>
   </div>
 
+  <!-- Sticky CTA (auto-shows after scroll) -->
+  <div class="sticky-cta" id="stickyCta" style="display:none">
+    <span class="label">Write posts in seconds</span>
+    <a class="btn ok" href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc" target="_blank" rel="noopener">Install</a>
+    <a class="btn" id="btnBuySticky" target="_blank" rel="noopener">Buy Lifetime</a>
+  </div>
+
   <script>
     // Live Razorpay Payment Links
     const INR_LINK = 'https://rzp.io/rzp/lpgen-in';
@@ -181,22 +223,47 @@
     }
 
     const inIndia = likelyIndia();
-    const buys = [document.getElementById('btnBuy'), document.getElementById('btnBuy2')].filter(Boolean);
     const priceLine = document.getElementById('priceLine');
 
+    // Bind all Buy buttons
+    const buyButtons = [
+      document.getElementById('btnBuy'),
+      document.getElementById('btnBuy2'),
+      document.getElementById('btnBuy3'),
+      document.getElementById('btnBuySticky')
+    ].filter(Boolean);
+
     if (inIndia) {
-      buys.forEach(btn => { btn.href = INR_LINK; btn.textContent = 'Buy Lifetime (₹399)'; });
-      priceLine.innerHTML = '<b>Lifetime license:</b> ₹399 (India)';
-      buys.forEach(btn => btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399', value:399, currency:'INR'})));
+      if (priceLine) priceLine.innerHTML = '<b>Lifetime license:</b> ₹399 (India)';
+      buyButtons.forEach((btn, i) => {
+        btn.href = INR_LINK; btn.textContent = btn.id==='btnBuySticky' ? 'Buy (₹399)' : 'Buy Lifetime (₹399)';
+        btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399_'+(btn.id||'unknown'), value:399, currency:'INR'}));
+      });
     } else {
-      buys.forEach(btn => { btn.href = USD_LINK; btn.textContent = 'Buy Lifetime ($4.99)'; });
-      priceLine.innerHTML = '<b>Lifetime license:</b> $4.99 (International)';
-      buys.forEach(btn => btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99', value:4.99, currency:'USD'})));
+      if (priceLine) priceLine.innerHTML = '<b>Lifetime license:</b> $4.99 (International)';
+      buyButtons.forEach((btn, i) => {
+        btn.href = USD_LINK; btn.textContent = btn.id==='btnBuySticky' ? 'Buy ($4.99)' : 'Buy Lifetime ($4.99)';
+        btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99_'+(btn.id||'unknown'), value:4.99, currency:'USD'}));
+      });
     }
 
+    // Track Install clicks
     document.getElementById('btnInstall')?.addEventListener('click', function(){
       window.gtag && gtag('event','cta_click', { cta_kind:'install_chrome_webstore', link_url:this.href });
     });
+
+    // Sticky CTA show/hide after ~35% scroll
+    (function(){
+      const bar = document.getElementById('stickyCta');
+      let shown = false;
+      function onScroll(){
+        const sc = window.scrollY || document.documentElement.scrollTop;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        if (h > 0 && sc / h > 0.35 && !shown){ bar.style.display = 'flex'; shown = true; }
+        if (sc < 40 && shown){ bar.style.display = 'none'; shown = false; }
+      }
+      window.addEventListener('scroll', onScroll, { passive:true });
+    })();
   </script>
 </body>
 </html>
