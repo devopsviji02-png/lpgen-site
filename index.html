@@ -17,58 +17,154 @@
   <meta name="description" content="AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server. Buy a lifetime license via Razorpay." />
   <meta property="og:title" content="LinkedIn Post Generator – AI Chrome Extension" />
   <meta property="og:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="Hero.png" />
+  <meta name="theme-color" content="#0b1220" />
+
   <style>
-    body{font:16px/1.5 system-ui,Segoe UI,Roboto,Arial;margin:0;background:#0b1220;color:#e6edf3}
-    .wrap{max-width:920px;margin:0 auto;padding:40px 20px}
-    h1{font-size:32px;margin:0 0 10px}
-    .card{background:#0f1528;border:1px solid #263248;border-radius:14px;padding:20px;margin:16px 0}
-    .btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;color:#fff;background:#2d6cdf;margin-right:8px}
-    .muted{color:#93a2b7}
-    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    small, a{color:#93a2b7}
-    a:hover{color:#fff}
-    .ok{background:#3fb950}
+    :root{
+      --bg:#0b1220; --panel:#0f1528; --line:#263248; --txt:#e6edf3; --muted:#93a2b7;
+      --brand:#2d6cdf; --ok:#3fb950; --ring:rgba(45,108,223,.25);
+    }
+    *{box-sizing:border-box}
+    body{font:16px/1.55 system-ui,Segoe UI,Roboto,Arial;margin:0;background:var(--bg);color:var(--txt)}
+    img{max-width:100%;height:auto;border-radius:12px}
+    .wrap{max-width:1040px;margin:0 auto;padding:32px 20px}
+    h1{font-size:36px;margin:0 0 10px}
+    h2{font-size:24px;margin:0 0 12px}
+    p{margin:0 0 14px}
+    .muted{color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none;color:#fff;background:var(--brand);box-shadow:0 0 0 0 var(--ring);transition:.18s}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px -6px var(--ring)}
+    .btn.ok{background:var(--ok);color:#04110b}
+    .row{display:grid;gap:18px;grid-template-columns:1.1fr .9fr;align-items:center}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .pill{display:inline-block;font:600 12px/1.2 system-ui;letter-spacing:.3px;padding:8px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+    .stack>*+*{margin-top:8px}
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .strip{padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+    footer{color:var(--muted);font-size:13px;margin:36px 0}
+    .center{text-align:center}
+    @media (max-width:860px){ .row{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>LinkedIn Post Generator</h1>
-    <p class="muted">AI Chrome extension that drafts high-quality LinkedIn posts in seconds. Runs locally—no server.</p>
+    <!-- Hero -->
+    <section class="row panel" style="margin-bottom:16px">
+      <div>
+        <span class="pill">Chrome Extension</span>
+        <h1>LinkedIn Post Generator</h1>
+        <p class="muted">Draft polished LinkedIn posts in seconds—right inside the LinkedIn composer. Choose tone &amp; length, add hashtags or emojis, and insert with one click.</p>
+        <div class="cta">
+          <a id="btnInstall" class="btn ok" target="_blank" rel="noopener noreferrer"
+             href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc">Install from Chrome Web Store</a>
+          <a id="btnBuy" class="btn" target="_blank" rel="noopener noreferrer">Buy Lifetime</a>
+        </div>
+        <p class="muted" style="margin-top:8px">Runs locally • No server • Your OpenAI key stays in your browser</p>
+      </div>
+      <div>
+        <!-- Prefer image hero for speed; swap to <video> block below if you want autoplay demo -->
+        <img src="Hero.png" alt="LinkedIn Post Generator — product hero" loading="eager" />
+      </div>
+    </section>
 
-    <div class="grid">
-      <div class="card"><b>Generate</b><br>One-click drafts from your topic.</div>
-      <div class="card"><b>Inject</b><br>Auto-opens LinkedIn composer and inserts text.</div>
-      <div class="card"><b>Privacy-first</b><br>No account required. Your OpenAI key stays in your browser.</div>
-    </div>
+    <!-- Optional video demo (uncomment when you add demo.mp4 to the repo)
+    <section class="panel" style="margin-bottom:16px">
+      <h2 style="margin-bottom:10px">See it in action</h2>
+      <video controls playsinline style="width:100%;border-radius:12px;outline:none">
+        <source src="demo.mp4" type="video/mp4" />
+        Your browser doesn’t support HTML5 video.
+      </video>
+    </section>
+    -->
 
-    <div class="card">
+    <!-- Feature highlights (your screenshots) -->
+    <section class="grid" style="margin-bottom:16px">
+      <div class="panel">
+        <img src="Features Highlight 1.png" alt="Choose tone and adapt style" />
+        <div class="stack" style="margin-top:10px">
+          <h2>Choose your tone, adapt your style</h2>
+          <p class="muted">Professional, friendly, storytelling, educational, or thought-leadership—pick your vibe and generate.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <img src="Features Highlight 2.png" alt="Customize length, hashtags, and emojis" />
+        <div class="stack" style="margin-top:10px">
+          <h2>Control length, hashtags &amp; emojis</h2>
+          <p class="muted">Short/medium/long, auto-hashtags, and tasteful emojis to match your brand voice.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <img src="Features Highlight 3.png" alt="One-click presets for any situation" />
+        <div class="stack" style="margin-top:10px">
+          <h2>One-click presets for any situation</h2>
+          <p class="muted">Quick tips, job posts, recaps, icebreakers, and more—ready when you are.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <img src="Privacy & Security.png" alt="Your data stays private" />
+        <div class="stack" style="margin-top:10px">
+          <h2>Your data stays private</h2>
+          <p class="muted">No account required. No servers. Your OpenAI API key is stored locally in your browser.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing / CTA -->
+    <section class="panel" style="margin-bottom:16px">
       <h2>Pricing</h2>
-      <p id="priceLine"><b>Lifetime license</b></p>
-      <p>
-        <a id="btnBuy" class="btn" target="_blank" rel="noopener noreferrer">Buy Lifetime</a>
-        <a id="btnInstall" class="btn ok" target="_blank" rel="noopener noreferrer"
+      <p id="priceLine" class="muted"><b>Lifetime license</b></p>
+      <div class="cta">
+        <a id="btnBuy2" class="btn" target="_blank" rel="noopener noreferrer">Buy Lifetime</a>
+        <a class="btn ok" target="_blank" rel="noopener noreferrer"
            href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc">Install from Chrome Web Store</a>
-      </p>
-    </div>
+      </div>
+    </section>
 
-    <div class="card">
+    <!-- How it works -->
+    <section class="panel" style="margin-bottom:16px">
+      <h2>How it works</h2>
+      <div class="grid">
+        <div class="strip">
+          <b>1. Open LinkedIn</b>
+          <p class="muted">Click “Start a post.” The extension opens a side panel.</p>
+        </div>
+        <div class="strip">
+          <b>2. Set tone &amp; length</b>
+          <p class="muted">Choose the tone, length, and optional hashtags/emojis.</p>
+        </div>
+        <div class="strip">
+          <b>3. Generate</b>
+          <p class="muted">Get a quality draft in seconds. Edit if you’d like.</p>
+        </div>
+        <div class="strip">
+          <b>4. Insert</b>
+          <p class="muted">One click inserts the text into LinkedIn’s composer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Policies & Uninstall -->
+    <section class="panel">
       <h2>Policies</h2>
-      <p>
-        <a href="/lpgen-site/terms.html">Terms &amp; Conditions</a>
-        ·
-        <a href="/lpgen-site/shipping.html">Shipping / Delivery Policy</a>
-        ·
-        <a href="/lpgen-site/contact.html">Contact Us</a>
-        ·
+      <p class="muted">
+        <a href="/lpgen-site/terms.html">Terms &amp; Conditions</a> ·
+        <a href="/lpgen-site/shipping.html">Shipping / Delivery Policy</a> ·
+        <a href="/lpgen-site/contact.html">Contact Us</a> ·
         <a target="_blank" rel="noopener noreferrer"
-           href="https://docs.google.com/document/d/e/2PACX-1vQorv7-If0am-B73TTrZ9x2RhPi4qENtso9HuhPGA81mShuB15JjwNSNlFprAFU_rJmrXaFUs2b8Ldg/pub">Privacy Policy</a>
-        ·
+           href="https://docs.google.com/document/d/e/2PACX-1vQorv7-If0am-B73TTrZ9x2RhPi4qENtso9HuhPGA81mShuB15JjwNSNlFprAFU_rJmrXaFUs2b8Ldg/pub">Privacy Policy</a> ·
         <a target="_blank" rel="noopener noreferrer"
            href="https://docs.google.com/document/d/e/2PACX-1vTtQGK2YFzQzcTwX44G0leJRUbygWOkcd8d4emyt-M0dmjjuf-Nfg4WJcxVzZXOt7lYxd5V970byTCD/pub">Refund &amp; Cancellation Policy</a>
       </p>
-    </div>
+      <h3 style="margin:14px 0 8px;font-size:18px">Uninstall</h3>
+      <p class="muted">Chrome → <b>Manage extensions</b> → <b>LinkedIn Post Generator</b> → <b>Remove</b>.</p>
+    </section>
 
-    <small>© 2025 LinkedIn Post Generator · Digital software license (no physical goods).</small>
+    <footer class="center">
+      © 2025 LinkedIn Post Generator · Digital software license (no physical goods)
+    </footer>
   </div>
 
   <script>
@@ -84,19 +180,18 @@
       } catch { return false; }
     }
 
-    const buy = document.getElementById('btnBuy');
-    const priceLine = document.getElementById('priceLine');
     const inIndia = likelyIndia();
+    const buys = [document.getElementById('btnBuy'), document.getElementById('btnBuy2')].filter(Boolean);
+    const priceLine = document.getElementById('priceLine');
+
     if (inIndia) {
-      buy.href = INR_LINK;
-      buy.textContent = 'Buy Lifetime (₹399)';
+      buys.forEach(btn => { btn.href = INR_LINK; btn.textContent = 'Buy Lifetime (₹399)'; });
       priceLine.innerHTML = '<b>Lifetime license:</b> ₹399 (India)';
-      buy.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399', value:399, currency:'INR'}));
+      buys.forEach(btn => btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399', value:399, currency:'INR'})));
     } else {
-      buy.href = USD_LINK;
-      buy.textContent = 'Buy Lifetime ($4.99)';
+      buys.forEach(btn => { btn.href = USD_LINK; btn.textContent = 'Buy Lifetime ($4.99)'; });
       priceLine.innerHTML = '<b>Lifetime license:</b> $4.99 (International)';
-      buy.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99', value:4.99, currency:'USD'}));
+      buys.forEach(btn => btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99', value:4.99, currency:'USD'})));
     }
 
     document.getElementById('btnInstall')?.addEventListener('click', function(){
