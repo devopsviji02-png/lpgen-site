@@ -25,7 +25,6 @@
   <meta name="twitter:description" content="Draft LinkedIn posts in seconds. Privacy-first, no server. Lifetime license available." />
   <meta name="twitter:image" content="Hero.png" />
   <meta name="theme-color" content="#0b1220" />
-  
 
   <!-- SoftwareApplication structured data -->
   <script type="application/ld+json">
@@ -75,6 +74,10 @@
     /* Video */
     .video-wrap{position:relative;width:100%;max-width:920px;aspect-ratio:16/9;margin:8px 0 0}
     .video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;object-fit:cover;background:#000}
+
+    /* Ordered list look */
+    ol.clean{margin:10px 0 0;padding-left:18px}
+    ol.clean li{margin:6px 0;color:var(--muted)}
 
     /* Sticky CTA */
     .sticky-cta{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;
@@ -129,6 +132,24 @@
         <a class="btn ok" href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc?utm_source=lpgen-site&utm_medium=video_cta&utm_campaign=homepage" target="_blank" rel="noopener">Install from Chrome Web Store</a>
         <a class="btn" id="btnBuy2" target="_blank" rel="noopener">Buy Lifetime</a>
       </p>
+    </section>
+
+    <!-- NEW: Get OpenAI API key -->
+    <section class="panel" id="api-key" style="margin-bottom:16px">
+      <h2>Get your OpenAI API key (required)</h2>
+      <p class="muted">The extension runs 100% in your browser using <b>your own OpenAI API key</b>. We never see it.</p>
+      <ol class="clean">
+        <li>Click <b>Get API key</b> to open the OpenAI dashboard.</li>
+        <li>Sign in → click <b>Create new secret key</b>.</li>
+        <li>Copy the key (starts with <code>sk-</code>) and paste it in the extension: <b>API Key → Save</b>.</li>
+        <li>Optional: set a monthly usage cap at <i>OpenAI → Billing → Usage limits</i>.</li>
+      </ol>
+      <div class="cta" style="margin-top:10px">
+        <a id="btnApiKey" class="btn" target="_blank" rel="noopener"
+           href="https://platform.openai.com/api-keys?utm_source=lpgen-site&utm_medium=cta&utm_campaign=get_api_key">Get API key</a>
+        <a class="btn ok" target="_blank" rel="noopener"
+           href="https://chromewebstore.google.com/detail/ohpbmjkkahbalhgodidmmkpjfcnofgnc?utm_source=lpgen-site&utm_medium=api_key_section&utm_campaign=homepage">Install extension</a>
+      </div>
     </section>
 
     <!-- Feature highlights -->
@@ -270,6 +291,11 @@
     }
     document.querySelectorAll('a[href*="chromewebstore.google.com"]').forEach(a=>{
       a.addEventListener('click', ()=> trackInstall('install_chrome_webstore', a.href));
+    });
+
+    // Track API key CTA
+    document.getElementById('btnApiKey')?.addEventListener('click', function(){
+      window.gtag && gtag('event','cta_click', { cta_kind:'get_api_key', link_url:this.href });
     });
 
     // Sticky CTA show/hide after ~35% scroll
