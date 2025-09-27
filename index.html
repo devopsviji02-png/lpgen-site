@@ -5,13 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LinkedIn Post Generator – AI Chrome Extension</title>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- ONE gtag loader (best practice). Loads GA4; we also init Google Ads below. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT85QW2ZZ3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
+
+    /* GA4 property */
     gtag('config', 'G-MT85QW2ZZ3', { debug_mode: true });
+
+    /* Google Ads property */
+    gtag('config', 'AW-17595297164');
   </script>
 
   <!-- Social cards -->
@@ -70,16 +75,10 @@
     .center{text-align:center}
     .trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
     .badge{font:600 12px/1 system-ui;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 10px}
-
-    /* Video */
     .video-wrap{position:relative;width:100%;max-width:920px;aspect-ratio:16/9;margin:8px 0 0}
     .video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;object-fit:cover;background:#000}
-
-    /* Ordered list look */
     ol.clean{margin:10px 0 0;padding-left:18px}
     ol.clean li{margin:6px 0;color:var(--muted)}
-
-    /* Sticky CTA */
     .sticky-cta{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;
       display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);
       border-radius:12px;padding:10px 12px;box-shadow:0 12px 24px -12px rgba(0,0,0,.5);z-index:50}
@@ -134,7 +133,7 @@
       </p>
     </section>
 
-    <!-- NEW: Get OpenAI API key -->
+    <!-- Get OpenAI API key -->
     <section class="panel" id="api-key" style="margin-bottom:16px">
       <h2>Get your OpenAI API key (required)</h2>
       <p class="muted">The extension runs 100% in your browser using <b>your own OpenAI API key</b>. We never see it.</p>
@@ -248,7 +247,7 @@
   </div>
 
   <script>
-    // Live Razorpay Payment Links
+    // ---------- PRICING / BUY LINKS ----------
     const INR_LINK = 'https://rzp.io/rzp/lpgen-in';
     const USD_LINK = 'https://rzp.io/rzp/lpgen-usd';
 
@@ -259,11 +258,9 @@
         return tz.includes('Kolkata') || lang.endsWith('-in') || lang === 'hi' || lang === 'en-in';
       } catch { return false; }
     }
-
     const inIndia = likelyIndia();
     const priceLine = document.getElementById('priceLine');
 
-    // Bind all Buy buttons (and track)
     const buyButtons = [
       document.getElementById('btnBuy'),
       document.getElementById('btnBuy2'),
@@ -275,27 +272,43 @@
       if (priceLine) priceLine.innerHTML = '<b>Lifetime license:</b> ₹399 (India)';
       buyButtons.forEach(btn => {
         btn.href = INR_LINK; btn.textContent = (btn.id==='btnBuySticky'?'Buy (₹399)':'Buy Lifetime (₹399)');
-        btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_inr_399_'+(btn.id||'unknown'), value:399, currency:'INR'}));
       });
     } else {
       if (priceLine) priceLine.innerHTML = '<b>Lifetime license:</b> $4.99 (International)';
       buyButtons.forEach(btn => {
         btn.href = USD_LINK; btn.textContent = (btn.id==='btnBuySticky'?'Buy ($4.99)':'Buy Lifetime ($4.99)');
-        btn.addEventListener('click', () => window.gtag && gtag('event','cta_click',{cta_kind:'buy_lifetime_usd_4_99_'+(btn.id||'unknown'), value:4.99, currency:'USD'}));
       });
     }
 
-    // Track Install clicks (all variants)
-    function trackInstall(kind, href){
-      window.gtag && gtag('event','cta_click', { cta_kind: kind, link_url: href });
+    // ---------- ANALYTICS / ADS EVENTS ----------
+    // Replace these two labels with the exact labels from Google Ads → Conversions
+    const AW_ID = 'AW-17595297164';
+    const AW_LABEL_INSTALL = 'REPLACE_WITH_INSTALL_LABEL';
+    const AW_LABEL_BUY     = 'REPLACE_WITH_BUY_LABEL';
+
+    function fireInstallConversion(){
+      // Google Ads conversion
+      gtag('event', 'conversion', { send_to: `${AW_ID}/${AW_LABEL_INSTALL}`, value: 1, currency: 'USD' });
+      // GA4 click tracking (optional)
+      gtag('event','cta_click', { cta_kind:'install_chrome_webstore' });
     }
+
+    function fireBuyConversion(){
+      gtag('event', 'conversion', { send_to: `${AW_ID}/${AW_LABEL_BUY}`, value: 4.99, currency: inIndia ? 'INR' : 'USD' });
+      gtag('event','cta_click', { cta_kind:'buy_lifetime' });
+    }
+
+    // Install CTAs → fire install conversion
     document.querySelectorAll('a[href*="chromewebstore.google.com"]').forEach(a=>{
-      a.addEventListener('click', ()=> trackInstall('install_chrome_webstore', a.href));
+      a.addEventListener('click', fireInstallConversion);
     });
 
-    // Track API key CTA
+    // Buy CTAs → fire buy conversion
+    buyButtons.forEach(btn => btn.addEventListener('click', fireBuyConversion));
+
+    // API key CTA (GA4 only)
     document.getElementById('btnApiKey')?.addEventListener('click', function(){
-      window.gtag && gtag('event','cta_click', { cta_kind:'get_api_key', link_url:this.href });
+      gtag('event','cta_click', { cta_kind:'get_api_key', link_url:this.href });
     });
 
     // Sticky CTA show/hide after ~35% scroll
